@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>班级周次课程表</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 40px auto;
+      max-width: 1200px;
+      padding: 0 20px;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      background-color: #fff;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      min-width: 100px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #3498db;
+      color: white;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #ecf0f1;
+    }
+
+    tr:hover td {
+      background-color: #d0eae6;
+    }
+
+    [contenteditable]:focus {
+      outline: 2px solid #2980b9;
+      background-color: #feffbf;
+    }
+  </style>
+</head>
+<body>
+
+<h2>班级周次课程表</h2>
+
+<table id="scheduleTable">
+  <tr>
+    <th rowspan="2">班级\周次</th>
+    <th colspan="2">第15周</th>
+    <th colspan="2">第16周</th>
+    <th colspan="2">第17周</th>
+    <th colspan="2">第18周</th>
+    <th colspan="2">第19周</th>
+  </tr>
+  <tr>
+    <th>一二节</th><th>三四节</th>
+    <th>一二节</th><th>三四节</th>
+    <th>一二节</th><th>三四节</th>
+    <th>一二节</th><th>三四节</th>
+    <th>一二节</th><th>三四节</th>
+  </tr>
+  <tr data-class="2班">
+    <td contenteditable="true"></td><td contenteditable="true"></td>
+    <td contenteditable="true"></td><td contenteditable="true"></td>
+    <td contenteditable="true"></td><td contenteditable="true"></td>
+    <td contenteditable="true"></td><td contenteditable="true"></td>
+    <td contenteditable="true"></td><td contenteditable="true"></td>
+  </tr>
+  <tr data-class="3班">
+    <td contenteditable="true"></td><td contenteditable="true"></td>
+    <td contenteditable="true"></td><td contenteditable="true"></td>
+    <td contenteditable="true"></td><td contenteditable="true"></td>
+    <td contenteditable="true"></td><td contenteditable="true"></td>
+    <td contenteditable="true"></td><td contenteditable="true"></td>
+  </tr>
+  <tr data-class="4班">
+    <td contenteditable="true"></td><td contenteditable="true"></td>
+    <td contenteditable="true"></td><td contenteditable="true"></td>
+    <td contenteditable="true"></td><td contenteditable="true"></td>
+    <td contenteditable="true"></td><td contenteditable="true"></td>
+    <td contenteditable="true"></td><td contenteditable="true"></td>
+  </tr>
+  <tr data-class="8班">
+    <td contenteditable="true"></td><td contenteditable="true"></td>
+    <td contenteditable="true"></td><td contenteditable="true"></td>
+    <td contenteditable="true"></td><td contenteditable="true"></td>
+    <td contenteditable="true"></td><td contenteditable="true"></td>
+    <td contenteditable="true"></td><td contenteditable="true"></td>
+  </tr>
+</table>
+
+<script>
+  const table = document.getElementById('scheduleTable');
+
+  // 加载已保存的数据
+  window.addEventListener('DOMContentLoaded', () => {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key.startsWith('cell_')) {
+        const cell = document.querySelector(`[data-id="${key}"]`);
+        if (cell) {
+          cell.textContent = localStorage.getItem(key);
+        }
+      }
+    }
+  });
+
+  // 遍历所有可编辑单元格并添加 data-id 和事件监听
+  Array.from(table.querySelectorAll('[contenteditable]')).forEach((cell, index) => {
+    const id = `cell_${index}`;
+    cell.setAttribute('data-id', id);
+
+    // 每当内容变化时保存
+    cell.addEventListener('input', () => {
+      localStorage.setItem(id, cell.textContent);
+    });
+  });
+</script>
+
+</body>
+</html>
